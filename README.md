@@ -1,5 +1,10 @@
 # Holix Studio CE
 
+[![Holix](https://img.shields.io/pypi/v/Holix.svg)](https://pypi.org/project/Holix/)
+[![Python](https://img.shields.io/badge/python-3.12%2B-blue.svg)](https://python.org)
+[![License](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
+[![Holix GitHub](https://img.shields.io/github/stars/javded-itres/Holix?style=social)](https://github.com/javded-itres/Holix)
+
 Одноместная IDE для агента [Holix](https://github.com/javded-itres/Holix): чат, файлы, git и терминал **на вашей машине**. Один пользователь. Без облачной подписки.
 
 Cloud для команд — [holix-studio.ru](https://holix-studio.ru). Этот репозиторий — витрина и установщик агента.
