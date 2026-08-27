@@ -1,0 +1,8 @@
+blank_issues_enabled: true
+contact_links:
+  - name: Holix agent (MIT)
+    url: https://github.com/javded-itres/Holix/issues
+    about: CLI, TUI, gateway, Telegram — not this landing repo
+  - name: Holix Studio Cloud
+    url: https://holix-studio.ru
+    about: Teams, billing, hosted Studio

@@ -1,0 +1,22 @@
+name: Install / landing
+description: Проблема с install.sh или текстом витрины
+title: "[install] "
+labels: ["install"]
+body:
+  - type: textarea
+    id: what
+    attributes:
+      label: Что случилось
+      placeholder: Команда, вывод, ОС
+    validations:
+      required: true
+  - type: input
+    id: os
+    attributes:
+      label: ОС
+      placeholder: macOS 15 / Ubuntu 24.04
+  - type: markdown
+    attributes:
+      value: |
+        Баги **агента Holix** — в https://github.com/javded-itres/Holix/issues
+        Cloud Studio — holix-studio.ru

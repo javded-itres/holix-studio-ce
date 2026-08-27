@@ -1,0 +1,11 @@
+Holix Studio CE — public landing and installer scripts.
+
+This repository is a showcase: README, screenshots, and `scripts/install.sh`.
+It is not the Cloud product and not a source dump of Holix Studio.
+
+- Holix agent: MIT — https://github.com/javded-itres/Holix
+- Holix Studio Cloud (teams, billing, license): separate source-available product
+  https://holix-studio.ru
+- Holix Studio CE: single-user IDE on your machine (developer mode)
+
+Trademarks "Holix" and "Holix Studio" belong to ITRES / Pavel Lukyanov.
