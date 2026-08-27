@@ -40,29 +40,28 @@ CE — не «открытый GitLab». Исходники Cloud не лежа�
 - Файлы, git, терминал  
 - Свой ключ модели (OpenAI-совместимый / LiteLLM)
 
-## Быстрый старт — агент Holix
+## Установка на свою машину
 
-Сейчас установщик ставит **агент** (MIT, PyPI). IDE CE подключается тем же профилем, когда выйдет релиз `holix-studio-ce`.
+Нужны [uv](https://docs.astral.sh/uv/) и Python 3.12+.
 
 ```bash
 curl -fsSL https://raw.githubusercontent.com/javded-itres/holix-studio-ce/main/scripts/install.sh | bash
 ```
 
-Или локально из клона:
+Скрипт ставит **Holix 1.1.0** и, если есть [GitHub Release](https://github.com/javded-itres/holix-studio-ce/releases) с wheel, **Studio CE**.
 
 ```bash
-git clone git@github.com:javded-itres/holix-studio-ce.git
-cd holix-studio-ce
-./scripts/install.sh
+export PATH="$HOME/.local/bin:$PATH"
+holix-studio-ce setup
+holix-studio-ce serve
+# http://127.0.0.1:8788/studio/
 ```
 
-Нужны [uv](https://docs.astral.sh/uv/) и Python 3.12+. Дальше:
+Ключ модели — в профиле Holix (`OPENAI_API_KEY` или LiteLLM). Только агент: `holix` (TUI). Документация агента: [Holix](https://github.com/javded-itres/Holix).
 
-```bash
-holix          # TUI агента
-```
+Wheel IDE — source-available (как Cloud), не MIT. Ставить и пользоваться на одной машине можно; перепродавать и поднимать чужой SaaS — нет.
 
-Ключ модели — в профиле Holix (`OPENAI_API_KEY` или LiteLLM). Документация: [Holix](https://github.com/javded-itres/Holix).
+Релизы wheel собираются из закрытого репозитория Studio (**Actions → Publish CE wheel**), в этот git исходники Cloud не кладутся.
 
 ## Cloud
 
@@ -92,4 +91,4 @@ curl -fsSL https://raw.githubusercontent.com/javded-itres/holix-studio-ce/main/s
 holix
 ```
 
-Requires [uv](https://docs.astral.sh/uv/) and Python 3.12+. Configure a model key in the Holix profile. The CE IDE build will ship as a GitHub Release on this repo; today the script installs the MIT **Holix agent**.
+Requires [uv](https://docs.astral.sh/uv/) and Python 3.12+. Configure a model key in the Holix profile. `./scripts/install.sh` installs Holix 1.1.0 and, when a GitHub Release wheel exists, the Studio CE IDE (`holix-studio-ce serve` → http://127.0.0.1:8788/studio/). The IDE wheel is source-available (same as Cloud), not MIT.
