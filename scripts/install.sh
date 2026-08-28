@@ -18,22 +18,72 @@ fi
 command -v python3 >/dev/null || die "python3 is required"
 
 mkdir -p "$PREFIX" "$BIN_DIR"
+export PATH="${BIN_DIR}:${PATH}"
+
+ensure_user_path() {
+  local line='export PATH="$HOME/.local/bin:$PATH"'
+  local rc
+  for rc in \
+    "${HOME}/.zprofile" \
+    "${HOME}/.zshrc" \
+    "${HOME}/.bash_profile" \
+    "${HOME}/.bashrc" \
+    "${HOME}/.profile"
+  do
+    if [[ -f "$rc" ]] && grep -qE '\.local/bin' "$rc" 2>/dev/null; then
+      return 0
+    fi
+  done
+  rc="${HOME}/.zprofile"
+  [[ -f "${HOME}/.zshrc" && ! -f "$rc" ]] && rc="${HOME}/.zshrc"
+  [[ ! -f "$rc" && -f "${HOME}/.bashrc" ]] && rc="${HOME}/.bashrc"
+  [[ ! -f "$rc" ]] && rc="${HOME}/.profile"
+  printf '\n# Holix Studio CE — holix CLI\n%s\n' "$line" >> "$rc"
+  ok "PATH ${BIN_DIR} appended to ${rc}"
+}
+
+link_holix() {
+  local src="$1"
+  [[ -x "$src" ]] || return 1
+  ln -sfn "$src" "${BIN_DIR}/holix"
+  ok "Linked ${BIN_DIR}/holix"
+  if [[ -w /usr/local/bin ]]; then
+    ln -sfn "$src" /usr/local/bin/holix
+    ok "Linked /usr/local/bin/holix"
+  elif command -v sudo >/dev/null 2>&1 && sudo -n true 2>/dev/null; then
+    sudo ln -sfn "$src" /usr/local/bin/holix
+    ok "Linked /usr/local/bin/holix (sudo)"
+  fi
+}
+
 log "Venv ${VENV}"
 uv venv --python 3.12 "$VENV"
 # shellcheck disable=SC1091
 source "${VENV}/bin/activate"
 
-log "Installing ${HOLIX_PIN}…"
+log "Installing ${HOLIX_PIN} into CE venv…"
 uv pip install "${HOLIX_PIN}"
 
-HOLIX_BIN="${VENV}/bin/holix"
-if [[ -x "$HOLIX_BIN" ]]; then
-  ln -sfn "$HOLIX_BIN" "${BIN_DIR}/holix"
-  ok "Linked ${BIN_DIR}/holix  (holix models, holix bootstrap, holix tui)"
-  if [[ -w /usr/local/bin ]]; then
-    ln -sfn "$HOLIX_BIN" /usr/local/bin/holix
-    ok "Linked /usr/local/bin/holix"
-  fi
+# User-global CLI so `holix models` / `holix bootstrap` work in any shell.
+log "Installing Holix CLI globally (uv tool)…"
+if uv tool install --force "${HOLIX_PIN}"; then
+  TOOL_HOLIX="$(command -v holix || true)"
+  ok "uv tool: ${TOOL_HOLIX:-holix}"
+fi
+
+HOLIX_BIN="$(command -v holix 2>/dev/null || true)"
+if [[ -z "$HOLIX_BIN" || ! -x "$HOLIX_BIN" ]]; then
+  HOLIX_BIN="${VENV}/bin/holix"
+fi
+link_holix "$HOLIX_BIN" || die "holix binary missing after install"
+ensure_user_path
+
+hash -r 2>/dev/null || true
+if command -v holix >/dev/null 2>&1; then
+  ok "holix is on PATH: $(command -v holix)"
+  holix --help >/dev/null 2>&1 || true
+else
+  log "Open a new terminal, or: export PATH=\"${BIN_DIR}:\$PATH\""
 fi
 
 WHEEL_URL="$(python3 - <<PY
@@ -61,7 +111,8 @@ if [[ -z "${WHEEL_URL}" ]]; then
   echo "  Studio repo (Actions: Publish CE wheel) onto:"
   echo "  https://github.com/${CE_REPO}/releases"
   echo
-  echo "  Agent:  ${VENV}/bin/holix"
+  echo "  Agent:  $(command -v holix 2>/dev/null || echo "${VENV}/bin/holix")"
+  echo "  holix models setup"
   exit 0
 fi
 
