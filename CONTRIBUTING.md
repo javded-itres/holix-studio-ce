@@ -5,7 +5,7 @@ This repository is a **landing page and installer**, not the Cloud IDE source.
 ## Welcome here
 
 - Fixes to `scripts/install.sh`
-- README / screenshot / wording
+- README / `docs/en/SETUP.md` / `docs/ru/SETUP.md` / screenshots / wording
 - Issue templates
 
 Open a PR against `main`. Keep commits small.
