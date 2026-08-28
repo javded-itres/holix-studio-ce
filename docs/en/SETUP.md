@@ -11,12 +11,14 @@ curl -fsSL https://raw.githubusercontent.com/javded-itres/holix-studio-ce/main/s
 export PATH="$HOME/.local/bin:$PATH"
 ```
 
-The script installs the **Holix 1.1.0** agent and the **Studio CE** IDE (wheel from [Releases](https://github.com/javded-itres/holix-studio-ce/releases)).
+The script installs the **Holix 1.1.0** agent **on PATH** (`~/.local/bin/holix`, and `/usr/local/bin/holix` when writable) and the **Studio CE** IDE (wheel from [Releases](https://github.com/javded-itres/holix-studio-ce/releases)).
 
 Check:
 
 ```bash
+export PATH="$HOME/.local/bin:$PATH"
 holix version
+holix models list
 holix-studio-ce --help
 ```
 

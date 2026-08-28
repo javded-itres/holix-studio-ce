@@ -55,7 +55,7 @@ curl -fsSL https://raw.githubusercontent.com/javded-itres/holix-studio-ce/main/s
 export PATH="$HOME/.local/bin:$PATH"
 ```
 
-Ставятся агент **Holix 1.1.0** и IDE **Studio CE** (wheel с [Releases](https://github.com/javded-itres/holix-studio-ce/releases)).
+Ставятся агент **Holix 1.1.0** в `PATH` (`holix models`, `holix bootstrap`) и IDE **Studio CE** (wheel с [Releases](https://github.com/javded-itres/holix-studio-ce/releases)).
 
 ### 2. Запустить IDE
 

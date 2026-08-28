@@ -26,6 +26,16 @@ source "${VENV}/bin/activate"
 log "Installing ${HOLIX_PIN}…"
 uv pip install "${HOLIX_PIN}"
 
+HOLIX_BIN="${VENV}/bin/holix"
+if [[ -x "$HOLIX_BIN" ]]; then
+  ln -sfn "$HOLIX_BIN" "${BIN_DIR}/holix"
+  ok "Linked ${BIN_DIR}/holix  (holix models, holix bootstrap, holix tui)"
+  if [[ -w /usr/local/bin ]]; then
+    ln -sfn "$HOLIX_BIN" /usr/local/bin/holix
+    ok "Linked /usr/local/bin/holix"
+  fi
+fi
+
 WHEEL_URL="$(python3 - <<PY
 import json, sys, urllib.request
 url = "https://api.github.com/repos/${CE_REPO}/releases/latest"
@@ -69,6 +79,8 @@ fi
 echo
 ok "Holix Studio CE is installed (single-user)."
 echo "  export PATH=\"${BIN_DIR}:\$PATH\""
+echo "  holix version"
+echo "  holix models setup"
 echo "  holix-studio-ce setup"
 echo "  holix-studio-ce serve"
 echo "  open http://127.0.0.1:8788/studio/"

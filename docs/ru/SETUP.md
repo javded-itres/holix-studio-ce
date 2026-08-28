@@ -11,12 +11,14 @@ curl -fsSL https://raw.githubusercontent.com/javded-itres/holix-studio-ce/main/s
 export PATH="$HOME/.local/bin:$PATH"
 ```
 
-Скрипт ставит агент **Holix 1.1.0** и IDE **Studio CE** (wheel с [Releases](https://github.com/javded-itres/holix-studio-ce/releases)).
+Скрипт ставит агент **Holix 1.1.0** **в PATH** (`~/.local/bin/holix`, и `/usr/local/bin/holix`, если каталог доступен для записи) и IDE **Studio CE** (wheel с [Releases](https://github.com/javded-itres/holix-studio-ce/releases)).
 
 Проверка:
 
 ```bash
+export PATH="$HOME/.local/bin:$PATH"
 holix version
+holix models list
 holix-studio-ce --help
 ```
 
